@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lixo no Lugar Certo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>Lixo no Lugar Certo</h1>
+  <p>Viu lixo jogado em lugar errado? Registre aqui. Se você recolheu e descartou o lixo corretamente, marque o registro como resolvido.</p>
+
+  <div class="caixa">
+    <h2>Registrar local</h2>
+    <form id="formulario">
+      <label>Local (endereço ou referência):</label>
+      <input type="text" id="local" required>
+
+      <label>Tipo de resíduo:</label>
+      <select id="tipo">
+        <option>Lixo doméstico</option>
+        <option>Plástico</option>
+        <option>Papel</option>
+        <option>Vidro</option>
+        <option>Metal</option>
+        <option>Entulho</option>
+        <option>Móveis</option>
+        <option>Outro</option>
+      </select>
+
+      <label>Descrição:</label>
+      <textarea id="descricao"></textarea>
+
+      <label>Seu nome (opcional):</label>
+      <input type="text" id="nome">
+
+      <button type="submit">Registrar</button>
+    </form>
+  </div>
+
+  <div class="caixa">
+    <h2>Locais registrados</h2>
+    <button onclick="carregarRegistros()">Atualizar lista</button>
+    <div id="lista"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

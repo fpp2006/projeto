@@ -1,0 +1,54 @@
+body {
+  background-color: #f5f0e1;
+  font-family: Arial, sans-serif;
+  color: #333;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  color: #3a6b35;
+}
+
+.caixa {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+textarea {
+  height: 60px;
+}
+
+button {
+  margin-top: 10px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.registro {
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
+}
+
+.pendente {
+  color: #b33a3a;
+  font-weight: bold;
+}
+
+.resolvido {
+  color: #3a6b35;
+  font-weight: bold;
+}
