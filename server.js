@@ -1,6 +1,3 @@
-// Servidor simples: guarda os registros no arquivo dados.json
-// Para rodar: node server.js e abrir http://localhost:3000
-
 const http = require("http");
 const fs = require("fs");
 
@@ -50,8 +47,10 @@ const servidor = http.createServer(function (req, res) {
     enviarArquivo(res, "index.html", "text/html; charset=utf-8");
   } else if (req.method == "GET" && req.url == "/style.css") {
     enviarArquivo(res, "style.css", "text/css; charset=utf-8");
-  } else if (req.method == "GET" && req.url == "/script.js") {
-    enviarArquivo(res, "script.js", "text/javascript; charset=utf-8");
+  } else if (req.method == "GET" && req.url == "/main.js") {
+    enviarArquivo(res, "main.js", "text/javascript; charset=utf-8");
+  } else if (req.method == "GET" && req.url == "/dados.json") {
+    enviarArquivo(res, ARQUIVO, "application/json; charset=utf-8");
   }
 
   // lista todos os registros
