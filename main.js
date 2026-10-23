@@ -1,3 +1,6 @@
+const CHAVE_REGISTROS = "lixo-no-lugar-certo-registros-v1";
+let registros = null;
+
 // troca caracteres especiais para ninguém conseguir colocar HTML nos registros
 function limpar(texto) {
   return String(texto)
@@ -7,16 +10,57 @@ function limpar(texto) {
 }
 
 function carregarRegistros() {
-  fetch("/registros")
+  registros = null;
+  document.getElementById("lista").textContent = "Carregando registros...";
+
+  let salvos;
+  try {
+    salvos = localStorage.getItem(CHAVE_REGISTROS);
+    if (salvos !== null) {
+      let dados = JSON.parse(salvos);
+      if (!Array.isArray(dados)) {
+        throw new Error("Lista local inválida");
+      }
+      registros = dados;
+      mostrarRegistros(registros);
+      return;
+    }
+  } catch (erro) {
+    document.getElementById("lista").textContent = "Não foi possível ler os dados.";
+    alert("Não foi possível ler os registros salvos.");
+    return;
+  }
+
+  fetch("dados.json", { cache: "no-store" })
     .then(function (resposta) {
+      if (!resposta.ok) {
+        throw new Error("Erro ao carregar dados.json: " + resposta.status);
+      }
       return resposta.json();
     })
-    .then(function (registros) {
+    .then(function (dados) {
+      if (!Array.isArray(dados)) {
+        throw new Error("Lista de registros inválida");
+      }
+      registros = dados;
       mostrarRegistros(registros);
     })
     .catch(function () {
-      alert("Não foi possível carregar os registros.");
+      document.getElementById("lista").textContent = "Não foi possível carregar os registros.";
+      alert("Não foi possível carregar dados.json. Verifique se ele foi publicado junto do site.");
     });
+}
+
+function salvarRegistros(novosRegistros) {
+  try {
+    localStorage.setItem(CHAVE_REGISTROS, JSON.stringify(novosRegistros));
+  } catch (erro) {
+    alert("Não foi possível salvar. Verifique se o armazenamento está permitido e tem espaço.");
+    return false;
+  }
+  registros = novosRegistros;
+  mostrarRegistros(registros);
+  return true;
 }
 
 function mostrarRegistros(registros) {
@@ -64,46 +108,69 @@ function mostrarRegistros(registros) {
 }
 
 function marcarResolvido(id) {
+  if (registros === null) {
+    alert("Carregue os registros antes de marcar um descarte.");
+    return;
+  }
+  let indice = registros.findIndex(function (registro) {
+    return registro.id == id;
+  });
+  if (indice == -1) {
+    alert("Registro não encontrado. Atualize a lista.");
+    return;
+  }
+  if (registros[indice].resolvido) {
+    return;
+  }
+
   let nome = prompt("Qual é o seu nome?");
   if (nome == null) {
     return; // a pessoa clicou em cancelar
   }
 
-  fetch("/registros/" + id + "/resolver", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({nome: nome})
-  })
-    .then(function () {
-      carregarRegistros();
-    })
-    .catch(function () {
-      alert("Não foi possível atualizar o registro.");
-    });
+  let atualizados = registros.slice();
+  atualizados[indice] = {
+    ...registros[indice],
+    resolvido: true,
+    resolvidoPor: nome.trim() || "Anônimo",
+    resolvidoEm: new Date().toISOString()
+  };
+  salvarRegistros(atualizados);
 }
 
 document.getElementById("formulario").addEventListener("submit", function (e) {
   e.preventDefault();
 
+  if (registros === null) {
+    alert("Carregue os registros antes de cadastrar um local.");
+    return;
+  }
+  let local = document.getElementById("local").value.trim();
+  if (local == "") {
+    alert("Informe o local.");
+    return;
+  }
+
+  let momento = new Date();
+  let id = Date.now();
+  while (registros.some(function (registro) { return registro.id == id; })) {
+    id++;
+  }
   let novo = {
-    local: document.getElementById("local").value,
+    id: id,
+    local: local,
     tipo: document.getElementById("tipo").value,
     descricao: document.getElementById("descricao").value,
-    nome: document.getElementById("nome").value
+    nome: document.getElementById("nome").value.trim() || "Anônimo",
+    data: momento.toLocaleDateString("pt-BR"),
+    registradoEm: momento.toISOString(),
+    resolvido: false,
+    resolvidoPor: ""
   };
 
-  fetch("/registros", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(novo)
-  })
-    .then(function () {
-      document.getElementById("formulario").reset();
-      carregarRegistros();
-    })
-    .catch(function () {
-      alert("Não foi possível salvar o registro.");
-    });
+  if (salvarRegistros(registros.concat(novo))) {
+    document.getElementById("formulario").reset();
+  }
 });
 
 carregarRegistros();
