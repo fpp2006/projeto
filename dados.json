@@ -5,11 +5,11 @@
     "tipo": "Papel",
     "descricao": "Vários papéis espalhados perto da padaria.",
     "nome": "Fernando",
-    "data": "24/10/2026",
-    "registradoEm": "2026-10-24T17:35:38.829Z",
+    "data": "23/10/2026",
+    "registradoEm": "2026-10-23T17:35:38.829Z",
     "resolvido": true,
     "resolvidoPor": "Fernando",
-    "resolvidoEm": "2026-10-24T17:37:43.926Z"
+    "resolvidoEm": "2026-10-23T17:37:43.926Z"
   },
   {
     "id": 1792762496075,
@@ -17,11 +17,11 @@
     "tipo": "Outro",
     "descricao": "Restos de comida jogados frente à farmácia.",
     "nome": "roberto",
-    "data": "24/10/2026",
-    "registradoEm": "2026-10-24T17:46:05.157Z",
+    "data": "23/10/2026",
+    "registradoEm": "2026-10-23T17:46:05.157Z",
     "resolvido": true,
     "resolvidoPor": "roberto",
-    "resolvidoEm": "2026-10-24T17:50:35.551Z"
+    "resolvidoEm": "2026-10-23T17:50:35.551Z"
   },
   {
     "id": 1792762496075,
@@ -29,10 +29,10 @@
     "tipo": "Plástico",
     "descricao": "Sacolas plásticas, em conjunto, perto da gangorra da praça.",
     "nome": "Manuel",
-    "data": "24/10/2026",
-    "registradoEm": "2026-10-24T17:58:56.075Z",
+    "data": "23/10/2026",
+    "registradoEm": "2026-10-23T17:58:56.075Z",
     "resolvido": true,
     "resolvidoPor": "Manuel",
-    "resolvidoEm": "2026-10-24T18:05:02.634Z"
+    "resolvidoEm": "2026-10-23T18:05:02.634Z"
   }
 ]
